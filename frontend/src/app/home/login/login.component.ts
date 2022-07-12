@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.name = new FormControl('', Validators.required);
-    this.password = new FormControl('', Validators.required);
+    this.name = new FormControl('Fatima', Validators.required);
+    this.password = new FormControl('Fatima', Validators.required);
 
     this.form = this.fb.group({
       name: this.name,
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         if (response.data) {
           localStorage.setItem('user', JSON.stringify(response.data));
-          this.router.navigateByUrl('');
+          this.router.navigateByUrl('/stanze');
         } else {
           console.error(response.error);
         }

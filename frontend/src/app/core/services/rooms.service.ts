@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { Room } from '../models/room';
+import { ResponseData } from '../models/response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ import { Room } from '../models/room';
 export class RoomsService {
 
   private apiUrl = 'http://localhost:8080/api/rooms/';
-  private roomsList$!: Observable<Room[]>;
+  private roomsList$!: Observable<ResponseData<Room[]>>;
 
   constructor(private http: HttpClient) { }
 
-  getAllRooms(): Observable<Room[]> {
+  getAllRooms(): Observable<ResponseData<Room[]>> {
     if (this.roomsList$ === null) {
-      this.roomsList$ = this.http.get<Room[]>(this.apiUrl + 'rooms');
+      this.roomsList$ = this.http.get<ResponseData<Room[]>>(this.apiUrl + 'rooms');
     }
     return this.roomsList$;
   }

@@ -3,6 +3,6 @@ export class Room {
         public id: number,
         public name: string,
         public work_stations: number,
-        public type: number,
+        public room_type_id: number,
     ) { }
 }
