@@ -1,16 +1,16 @@
 <div class="container mt-3">
 
-    <mat-card>
+    <mat-card *ngIf="room">
 
         <div class="row">
 
-            <mat-card-title>room.name</mat-card-title>
+            <mat-card-title>{{ room.name }}</mat-card-title>
 
             <div class="infoRoom col-md-6">
                 <mat-card-content>
-                    <p>Postazioni: room.work_stations</p>
+                    <p>Postazioni: {{ room.work_stations }}</p>
                     <!-- *ngFor per numero di work_stations -->
-                    <div class="stations">
+                    <div class="stations" *ngFor="let _ of [].constructor(room.work_stations)">
                         <button mat-fab disabled>
                             <mat-icon>chair_alt</mat-icon>
                         </button>
