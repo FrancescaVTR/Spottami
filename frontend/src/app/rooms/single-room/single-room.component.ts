@@ -1,8 +1,14 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { RoomsService } from 'src/app/core/services/rooms.service';
+
+import { Subject, takeUntil } from 'rxjs';
+
 import { Time, TIMES } from 'src/app/core/models/times';
+import { Room } from 'src/app/core/models/room';
 
 @Component({
   selector: 'app-single-room',
@@ -10,6 +16,8 @@ import { Time, TIMES } from 'src/app/core/models/times';
   styleUrls: ['./single-room.component.css']
 })
 export class SingleRoomComponent implements OnInit {
+
+  room: Room | undefined;
 
   minDate!: Date;
 
@@ -29,8 +37,10 @@ export class SingleRoomComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private location: Location
+    private location: Location,
+    private roomsService: RoomsService
   ) {
     const targetDate = new Date();
     this.minDate = new Date(targetDate.setDate(targetDate.getDate() + 1));
@@ -54,6 +64,18 @@ export class SingleRoomComponent implements OnInit {
         this.form.controls.endTime.setErrors(null);
       }
     });
+
+    this.getRoom();
+  }
+
+  getRoom(): void {
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.roomsService.roomsList$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => 
+        console.log(response.data));
   }
 
   onSubmit(): void {

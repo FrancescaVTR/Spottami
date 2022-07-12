@@ -13,7 +13,7 @@ import { ResponseData } from '../models/response';
 export class RoomsService {
 
   private apiUrl = 'http://localhost:8080/api/rooms/';
-  private roomsList$!: Observable<ResponseData<Room[]>>;
+  public roomsList$!: Observable<ResponseData<Room[]>>;
 
   constructor(private http: HttpClient) { }
 
