@@ -1,0 +1,24 @@
+@media (min-width: 768px) {
+    .infoRoom {
+        position: relative;
+    }
+    
+    .infoBtn {
+        position: absolute;
+        bottom: 0px;
+    }
+}
+
+.stations button {
+    background-color: var(--bs-teal);
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+.date mat-form-field {
+    width: 100%;
+}
+
+.time mat-form-field {
+    min-width: 6rem;
+    width: 100%;
+}

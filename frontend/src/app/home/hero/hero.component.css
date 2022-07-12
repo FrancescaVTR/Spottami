@@ -1,0 +1,23 @@
+* {
+    text-align: center;
+}
+
+h1 {
+    font-family: var(--fontSec);
+    font-weight: 700;
+    font-size: 6rem;
+    line-height: 1.0;
+}
+
+a {
+    font-family: var(--fontMain);
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    padding: 1rem 3rem;
+}
+
+/* a:hover {
+    background-color: var(--bs-gray-dark);
+    color: var(--bs-blue);
+} */

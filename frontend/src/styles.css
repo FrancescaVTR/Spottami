@@ -1,0 +1,12 @@
+:root {
+  --fontMain: Roboto, "Helvetica Neue", sans-serif;
+  --fontSec: 'Montserrat', sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
