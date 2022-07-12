@@ -3,6 +3,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { Subject, takeUntil } from 'rxjs';
+
+import { RoomsService } from 'src/app/core/services/rooms.service';
+
 import { Room } from 'src/app/core/models/room';
 
 @Component({
@@ -12,43 +16,20 @@ import { Room } from 'src/app/core/models/room';
 })
 export class RoomsComponent implements OnInit, AfterViewInit {
 
-  ROOMS: Room[] = [
-    {
-      id: 1,
-      name: 'Giallo',
-      work_stations: 4,
-      type: 'Meeting'
-    },
-    {
-      id: 2,
-      name: 'Blu',
-      work_stations: 8,
-      type: 'Meeting'
-    },
-    {
-      id: 3,
-      name: 'Rosso',
-      work_stations: 10,
-      type: 'Meeting'
-    },
-    {
-      id: 4,
-      name: 'Verde',
-      work_stations: 5,
-      type: 'Meeting'
-    }
-  ]
+  ROOMS: Room[] = []
 
   displayedColumns: string[] = ['name', 'work_stations', 'type'];
   dataSource = new MatTableDataSource(this.ROOMS)
   clickedRow = new Set<Room>();
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() { }
+  constructor(private roomsService: RoomsService) { }
 
   ngOnInit(): void {
-    // this.getRooms();    
+    this.getRooms();    
   }
 
   ngAfterViewInit() {
@@ -56,7 +37,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
   getRooms(): void {
-    // Chiamata tramite servizio
+    this.roomsService.getAllRooms()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        this.ROOMS = response;
+      }
+    )
   }
 
   clickRoom(): void {

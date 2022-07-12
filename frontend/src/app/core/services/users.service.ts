@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
-import { delay, forkJoin, map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
+import { ResponseData } from '../models/response';
 import { User } from '../models/user';
 
 @Injectable({
@@ -15,9 +16,9 @@ export class UsersService {
 
   constructor(private http: HttpClient) { }
 
-  login(user: {name: string, password: string} ): Observable<User> {
+  login(user: {name: string, password: string} ): Observable<ResponseData<User>> {
     const url = `${this.apiUrl + 'login'}`;
-    return this.http.post<User>(url, user)
+    return this.http.post<ResponseData<User>>(url, user);
   }
 
 }
