@@ -18,7 +18,7 @@ export class RoomsService {
   constructor(private http: HttpClient) { }
 
   getAllRooms(): Observable<ResponseData<Room[]>> {
-    if (this.roomsList$ === null) {
+    if (this.roomsList$ === undefined) {
       this.roomsList$ = this.http.get<ResponseData<Room[]>>(this.apiUrl + 'rooms');
     }
     return this.roomsList$;

@@ -76,10 +76,10 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       )
       .subscribe( (response) => { 
         console.log(response.data); 
-        // this.room = response.data.filter(room => {
-        //   return room.id === id
-        // })
-      })
+        this.room = response.data.find(room => {
+          return room.id === id
+        });
+      });
   }
 
   onSubmit(): void {

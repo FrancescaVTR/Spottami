@@ -19,7 +19,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   ROOMS: Room[] = []
 
   displayedColumns: string[] = ['name', 'work_stations', 'room_type_id'];
-  dataSource = new MatTableDataSource(this.ROOMS)
+  dataSource = new MatTableDataSource<Room>();
   clickedRow = new Set<Room>();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -43,6 +43,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       )
       .subscribe(response => {
         this.ROOMS = response.data;
+        console.log(this.ROOMS);
+        this.dataSource = new MatTableDataSource(this.ROOMS);
       }
     )
   }
