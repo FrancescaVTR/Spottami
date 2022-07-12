@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
@@ -15,7 +15,7 @@ import { Room } from 'src/app/core/models/room';
   templateUrl: './single-room.component.html',
   styleUrls: ['./single-room.component.css']
 })
-export class SingleRoomComponent implements OnInit {
+export class SingleRoomComponent implements OnInit, OnDestroy {
 
   room: Room | undefined;
 
@@ -74,8 +74,12 @@ export class SingleRoomComponent implements OnInit {
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe(response => 
-        console.log(response.data));
+      .subscribe( (response) => { 
+        console.log(response.data); 
+        // this.room = response.data.filter(room => {
+        //   return room.id === id
+        // })
+      })
   }
 
   onSubmit(): void {
@@ -84,6 +88,10 @@ export class SingleRoomComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
   }
 
 }
