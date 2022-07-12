@@ -11,12 +11,12 @@ import { User } from '../models/user';
 })
 export class UsersService {
 
-  private dbUrl = 'xxx';
+  private apiUrl = 'http://localhost:8080/api/login/';
 
   constructor(private http: HttpClient) { }
 
   login(user: {name: string, password: string} ): Observable<User> {
-    const url = `${this.dbUrl + 'users'}`;
+    const url = `${this.apiUrl + 'login'}`;
     return this.http.post<User>(url, user)
   }
 
