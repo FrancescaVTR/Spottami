@@ -43,7 +43,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       )
       .subscribe(response => {
         this.ROOMS = response.data;
-        console.log(this.ROOMS);
         this.dataSource = new MatTableDataSource(this.ROOMS);
       }
     )

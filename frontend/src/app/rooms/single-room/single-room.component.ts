@@ -70,17 +70,15 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
 
   getRoom(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    console.log(id);
     this.roomsService.roomsList$
       .pipe(
         takeUntil(this.destroy$)
       )
       .subscribe( (response) => { 
-        console.log(response.data); 
-        this.room = response.data.find(room =>
-          room.id === id
-        );
-        console.log(this.room);
+        this.room = response.data.find(room => room.id === id);
       });
+      console.log(this.room);
   }
 
   onSubmit(): void {
