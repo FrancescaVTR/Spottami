@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+
+import { HttpClient } from '@angular/common/http';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { UsersService } from 'src/app/core/services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +24,9 @@ export class LoginComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UsersService
   ) { }
 
   ngOnInit(): void {
@@ -32,8 +40,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { name, password } = this.form.value;
-    console.log(this.form.value)
-    // this.login(username, password);
+    const userLogging = this.form.value;
+    this.form.reset();
+    this.userService.login(userLogging)
+    .pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.router.navigateByUrl('');
+    }).unsubscribe();
   }
 }
