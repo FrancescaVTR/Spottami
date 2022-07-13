@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
         if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('auth', JSON.stringify(response.data));
           this.router.navigateByUrl('/stanze');
         } else {
           console.error(response.error);
