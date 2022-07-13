@@ -99,7 +99,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
             }
           }
         } else {
-          console.error(response.error);
+          console.log("Nessuna prenotazione effettuata");
         }
       })
     });
