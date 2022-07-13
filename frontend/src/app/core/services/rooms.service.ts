@@ -41,7 +41,7 @@ export class RoomsService {
     return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/${id}`);
   }
 
-  deleteBookingByID(id: number): Observable<unknown> {
+  deleteBookingByID(id: number): Observable<Object> {
     return this.http.delete(`${this.bookingAPIUrl}/${id}`);
   }
 }
