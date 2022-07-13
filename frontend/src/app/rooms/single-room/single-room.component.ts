@@ -150,6 +150,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  
   goBack(): void {
     this.location.back();
   }
