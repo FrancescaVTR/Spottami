@@ -91,6 +91,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
   }
 
   getRoom(): void {
+    
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.roomsService.roomsList$
       .pipe(

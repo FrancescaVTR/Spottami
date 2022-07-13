@@ -15,6 +15,7 @@ import { BookSearch } from '../models/bookSearch';
 export class RoomsService {
 
   private apiUrl = 'http://localhost:8080/api/rooms/';
+  private bookingAPIUrl = 'http://localhost:8080/api/booking/'
   public roomsList$!: Observable<ResponseData<Room[]>>;
 
   constructor(private http: HttpClient) { }
@@ -27,7 +28,7 @@ export class RoomsService {
   }
 
   searchBookings(search: BookSearch): Observable<ResponseData<RoomBooking[]>> {
-    const url = `${this.apiUrl + 'xxx'}`;
+    const url = `${this.bookingAPIUrl + 'booking'}`;
     return this.http.post<ResponseData<RoomBooking[]>>(url, search);
   }
 }
