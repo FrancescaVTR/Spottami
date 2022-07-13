@@ -9,6 +9,8 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { Time, TIMES } from 'src/app/core/models/times';
 import { Room } from 'src/app/core/models/room';
+import { BookSearch } from 'src/app/core/models/bookSearch';
+import { RoomBooking } from 'src/app/core/models/roomBooking';
 
 @Component({
   selector: 'app-single-room',
@@ -17,7 +19,8 @@ import { Room } from 'src/app/core/models/room';
 })
 export class SingleRoomComponent implements OnInit, OnDestroy {
 
-  room: Room | undefined;
+  room!: Room;
+  bookings!: RoomBooking[]
 
   minDate!: Date;
 
@@ -47,6 +50,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getRoom();
+
     this.date = new FormControl('', Validators.required);
     this.startTime = new FormControl('', Validators.required);
     this.endTime = new FormControl('', Validators.required);
@@ -57,28 +62,49 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       endTime: this.endTime,
     });
 
+    this.date.valueChanges.subscribe( (value) => {
+      const bookSearch = new BookSearch(this.room.id, value);
+      const bookings$ = this.roomsService.searchBookings(bookSearch);
+      bookings$.pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        if (response.data) {
+          console.log(response.data);
+          this.bookings = response.data;
+        } else {
+          console.error(response.error);
+        }
+      })
+    });
+
     this.form.valueChanges.subscribe( () => {
-      if (this.endTime.value.id <= this.startTime.value.id) {
+      if (this.endTime.value.id <= this.startTime.value.id)
+      // startTime < booking.startTime && endTime <= booking.startTime ||
+      // startTime >= booking.endTime && endTime > booking.endTime
+      {
         this.form.controls.endTime.setErrors({ valid: false });
       } else {
         this.form.controls.endTime.setErrors(null);
       }
     });
-
-    this.getRoom();
   }
 
   getRoom(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    console.log(id);
     this.roomsService.roomsList$
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe( (response) => { 
-        this.room = response.data.find(room => room.id === id);
-      });
-      console.log(this.room);
+      .subscribe( (response) => {
+        let matchRoom = response.data.find(room => room.id === id);
+        if (matchRoom != undefined) {
+          this.room = matchRoom
+        } else {
+          console.error("Stanza non trovata");
+        }
+      }
+    );
   }
 
   onSubmit(): void {

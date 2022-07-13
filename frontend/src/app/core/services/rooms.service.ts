@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/internal/Observable';
 
 import { Room } from '../models/room';
 import { ResponseData } from '../models/response';
+import { RoomBooking } from '../models/roomBooking';
+import { BookSearch } from '../models/bookSearch';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +24,10 @@ export class RoomsService {
       this.roomsList$ = this.http.get<ResponseData<Room[]>>(this.apiUrl + 'rooms');
     }
     return this.roomsList$;
+  }
+
+  searchBookings(search: BookSearch): Observable<ResponseData<RoomBooking[]>> {
+    const url = `${this.apiUrl + 'xxx'}`;
+    return this.http.post<ResponseData<RoomBooking[]>>(url, search);
   }
 }

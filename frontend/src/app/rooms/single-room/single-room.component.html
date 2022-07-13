@@ -10,8 +10,8 @@
                 <mat-card-content>
                     <p>Postazioni: {{ room.work_stations }}</p>
                     <!-- *ngFor per numero di work_stations -->
-                    <div class="stations" *ngFor="let _ of [].constructor(room.work_stations)">
-                        <button mat-fab disabled>
+                    <div class="stations">
+                        <button *ngFor="let _ of [].constructor(room.work_stations)" mat-fab disabled>
                             <mat-icon>chair_alt</mat-icon>
                         </button>
                     </div>
