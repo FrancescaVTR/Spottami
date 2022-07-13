@@ -40,7 +40,6 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
   endTime!: FormControl;
 
   user_id!: number | undefined;
-  room_id!: number | undefined;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -75,6 +74,10 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(response => {
+
+        this.START_TIMES = START_TIMES;
+        this.END_TIMES = END_TIMES;
+
         if (response.data) {
           this.bookings = response.data;
           for (let i in this.bookings) {
@@ -134,7 +137,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe( id => this.user_id = id );
 
-    const BOOKING = new RoomBooking(this.user_id, this.room_id, this.date.value, this.startTime.value, this.endTime.value)
+    const BOOKING = new RoomBooking(this.user_id, this.room.id, this.date.value, this.startTime.value.data, this.endTime.value.data)
 
     console.log(BOOKING);
 
