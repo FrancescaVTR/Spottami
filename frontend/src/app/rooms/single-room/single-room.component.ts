@@ -146,9 +146,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     )
     .subscribe( res => {
-      console.log(res);
       alert("Prenotazione andata a buon fine");
-      this.form.reset();
     });
   }
 
