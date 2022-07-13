@@ -7,7 +7,7 @@ import { RoomsService } from 'src/app/core/services/rooms.service';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { Time, TIMES } from 'src/app/core/models/times';
+import { Time, START, END } from 'src/app/core/models/times';
 import { Room } from 'src/app/core/models/room';
 import { BookSearch } from 'src/app/core/models/bookSearch';
 import { RoomBooking } from 'src/app/core/models/roomBooking';
@@ -31,8 +31,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     return day !== 0 && day !== 6;
   };
 
-  startTimes: Time[] = TIMES;
-  endTimes: Time[] = TIMES;
+  startTimes!: Time[];
+  endTimes!: Time[];
 
   form!: FormGroup;
   date!: FormControl;
@@ -71,31 +71,29 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(response => {
+
+        this.startTimes= START;
+        this.endTimes= END;
+
         if (response.data) {
-
-          console.log("Inizio Disponibili Pre Ciclo:");
-          console.log(this.startTimes);
-          console.log("Fine Disponibili Pre Ciclo:");
-          console.log(this.endTimes);
-
           this.bookings = response.data;
-          for (let i in this.bookings) {
+          for (let i=0; i<this.bookings.length; i++ ) {
             let start = this.startTimes.find( time => time.data === this.bookings[i].start_time);
             let end = this.endTimes.find( time => time.data === this.bookings[i].end_time);
 
             if (start && end) {
-              for (let j in this.startTimes) {
+              for (let j=0; j<this.startTimes.length; j++) {
                 if (this.startTimes[j].id >= start.id && this.startTimes[j].id < end.id) {
                   this.startTimes[j].valid = false;
                   console.log("Inizio INVALIDO:");
                   console.log(this.startTimes[j]);
                 }
               }
-              for (let j in this.endTimes) {
-                if (this.endTimes[j].id > start.id && this.endTimes[j].id <= end.id) {
-                  this.endTimes[j].valid = false;
+              for (let y=0; y<this.endTimes.length; y++) {
+                if (this.endTimes[y].id > start.id && this.endTimes[y].id <= end.id) {
+                  this.endTimes[y].valid = false;
                   console.log("Fine INVALIDATO:");
-                  console.log(this.endTimes[j]);
+                  console.log(this.endTimes[y]);
                 }
               }
             }
