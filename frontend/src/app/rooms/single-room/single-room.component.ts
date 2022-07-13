@@ -21,6 +21,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
 
   room!: Room;
   bookings!: RoomBooking[]
+  bookedTimes: Array<Object> = [];
 
   minDate!: Date;
 
@@ -30,7 +31,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     return day !== 0 && day !== 6;
   };
 
-  times: Time[] = TIMES
+  startTimes: Time[] = TIMES;
+  endTimes: Time[] = TIMES;
 
   form!: FormGroup;
   date!: FormControl;
@@ -72,6 +74,21 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         if (response.data) {
           console.log(response.data);
           this.bookings = response.data;
+          for (let i in this.bookings) {
+            let start = this.startTimes.find( time => time.data === this.bookings[i].start_time);
+            let end = this.endTimes.find( time => time.data === this.bookings[i].end_time);
+
+            if (start && end) {
+              for (let j in this.startTimes) {
+                if (this.startTimes[j].id >= start.id && this.startTimes[j].id < end.id)
+                  this.startTimes[j].valid = false;
+              }
+              for (let j in this.endTimes) {
+                if (this.endTimes[j].id > start.id && this.endTimes[j].id <= end.id)
+                  this.endTimes[j].valid = false;
+              }
+            }
+          }
         } else {
           console.error(response.error);
         }
@@ -79,13 +96,13 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     });
 
     this.form.valueChanges.subscribe( () => {
-      if (this.endTime.value.id <= this.startTime.value.id)
-      // startTime < booking.startTime && endTime <= booking.startTime ||
-      // startTime >= booking.endTime && endTime > booking.endTime
-      {
-        this.form.controls.endTime.setErrors({ valid: false });
-      } else {
-        this.form.controls.endTime.setErrors(null);
+      for (let i in this.bookings) {
+        if (this.endTime.value.id <= this.startTime.value.id) {
+          this.form.controls.endTime.setErrors({ valid: false });
+        } else {
+          this.form.controls.endTime.setErrors(null);
+        }
+        
       }
     });
   }

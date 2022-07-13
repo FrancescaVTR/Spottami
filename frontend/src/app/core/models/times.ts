@@ -17,4 +17,5 @@ export const TIMES: Time[] = [
     { id: 9, data: '16:00:00', view: '16:00', valid: true},
     { id: 10, data: '17:00:00', view: '17:00', valid: true},
     { id: 11, data: '18:00:00', view: '18:00', valid: true},
+    { id: 12, data: '19:00:00', view: '19:00', valid: true},
 ];

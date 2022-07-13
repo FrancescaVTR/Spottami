@@ -42,7 +42,7 @@
                                 <mat-label><mat-icon>schedule</mat-icon> Inizio</mat-label>
                                 <mat-select formControlName="startTime">
                                     <mat-option>-- None --</mat-option>
-                                    <mat-option *ngFor="let time of times" [disabled]="!time.valid" [value]="time">
+                                    <mat-option *ngFor="let time of startTimes" [disabled]="!time.valid" [value]="time">
                                         {{ time.view }}
                                     </mat-option>
                                 </mat-select>
@@ -54,7 +54,7 @@
                                 <mat-label><mat-icon>schedule</mat-icon> Fine</mat-label>
                                 <mat-select formControlName="endTime">
                                     <mat-option>-- None --</mat-option>
-                                    <mat-option *ngFor="let time of times" [value]="time">
+                                    <mat-option *ngFor="let time of endTimes" [value]="time">
                                         {{ time.view }}
                                     </mat-option>
                                 </mat-select>
