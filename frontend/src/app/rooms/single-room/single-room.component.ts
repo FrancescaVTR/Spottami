@@ -72,7 +72,12 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
         if (response.data) {
-          console.log(response.data);
+
+          console.log("Inizio Disponibili Pre Ciclo:");
+          console.log(this.startTimes);
+          console.log("Fine Disponibili Pre Ciclo:");
+          console.log(this.endTimes);
+
           this.bookings = response.data;
           for (let i in this.bookings) {
             let start = this.startTimes.find( time => time.data === this.bookings[i].start_time);
@@ -80,15 +85,27 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
 
             if (start && end) {
               for (let j in this.startTimes) {
-                if (this.startTimes[j].id >= start.id && this.startTimes[j].id < end.id)
+                if (this.startTimes[j].id >= start.id && this.startTimes[j].id < end.id) {
                   this.startTimes[j].valid = false;
+                  console.log("Inizio INVALIDO:");
+                  console.log(this.startTimes[j]);
+                }
               }
               for (let j in this.endTimes) {
-                if (this.endTimes[j].id > start.id && this.endTimes[j].id <= end.id)
+                if (this.endTimes[j].id > start.id && this.endTimes[j].id <= end.id) {
                   this.endTimes[j].valid = false;
+                  console.log("Fine INVALIDATO:");
+                  console.log(this.endTimes[j]);
+                }
               }
             }
+          
           }
+          console.log("Inizio Disponibili Post Ciclo:");
+          console.log(this.startTimes);
+          console.log("Fine Disponibili Post Ciclo:");
+          console.log(this.endTimes);
+          
         } else {
           console.error(response.error);
         }
@@ -96,13 +113,10 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     });
 
     this.form.valueChanges.subscribe( () => {
-      for (let i in this.bookings) {
-        if (this.endTime.value.id <= this.startTime.value.id) {
-          this.form.controls.endTime.setErrors({ valid: false });
-        } else {
-          this.form.controls.endTime.setErrors(null);
-        }
-        
+      if (this.endTime.value.id <= this.startTime.value.id) {
+        this.form.controls.endTime.setErrors({ valid: false });
+      } else {
+        this.form.controls.endTime.setErrors(null);
       }
     });
   }
