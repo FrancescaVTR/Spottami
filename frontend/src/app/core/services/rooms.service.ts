@@ -38,6 +38,6 @@ export class RoomsService {
   }
 
   getBookingsByID(id: number): Observable<ResponseData<RoomBooking[]>> {
-    return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/?id=${id}`);
+    return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/${id}`);
   }
 }

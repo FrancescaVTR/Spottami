@@ -9,6 +9,7 @@ import { RoomsService } from '../core/services/rooms.service';
 
 import { RoomBooking } from '../core/models/roomBooking';
 import { AuthService } from '../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -29,15 +30,19 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private roomsService: RoomsService
+    private roomsService: RoomsService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
     this.authService.id$.pipe(
       takeUntil(this.destroy$)
     ).subscribe( (id) => {
-      if (id)
+      if (id) {
         this.getBookings(id)
+      } else {
+        this.router.navigateByUrl('/login');
+      }
     });
   }
 

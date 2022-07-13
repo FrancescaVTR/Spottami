@@ -151,6 +151,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     )
     .subscribe( () => {
       alert("Prenotazione andata a buon fine");
+      this.router.navigateByUrl('/profilo');
     });
   }
   
