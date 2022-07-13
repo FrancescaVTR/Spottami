@@ -138,13 +138,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe( id => this.user_id = id );
 
-    const BOOKING = {
-      user_id: this.user_id,
-      room_id: this.room.id,
-      booking_date: this.form.value.date,
-      start_time: this.form.value.startTime,
-      end_time: this.form.value.endTime
-    }
+    const BOOKING = new RoomBooking(this.user_id, this.room_id, this.date.value, this.startTime.value, this.endTime.value)
 
     console.log(BOOKING);
   }
