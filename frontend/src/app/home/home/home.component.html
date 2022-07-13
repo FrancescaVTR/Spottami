@@ -25,9 +25,15 @@
             
             <span class="example-spacer"></span>
 
-            <button mat-icon-button>
+            <button mat-icon-button *ngIf="!(authService.isLogged$ | async)">
                 <a routerLink="/login">
                     <mat-icon>login</mat-icon>
+                </a>
+            </button>
+
+            <button mat-icon-button *ngIf="(authService.isLogged$ | async)">
+                <a routerLink="/" (click)="logout()">
+                    <mat-icon>logout</mat-icon>
                 </a>
             </button>
             

@@ -149,7 +149,6 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       alert("Prenotazione andata a buon fine");
     });
   }
-
   
   goBack(): void {
     this.location.back();

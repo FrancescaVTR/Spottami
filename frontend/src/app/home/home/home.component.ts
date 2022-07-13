@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 export interface Link {
   routerLink: string,
@@ -11,7 +13,7 @@ export interface Link {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'] 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   appTitle: string = 'Spottami'
 
@@ -20,8 +22,10 @@ export class HomeComponent implements OnInit {
     { routerLink: '/stanze', name: 'Stanze', icon: 'meeting_room' }
   ]
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
-  ngOnInit(): void { }
+  logout(): void {
+    this.authService.logout();
+  }
 
 }

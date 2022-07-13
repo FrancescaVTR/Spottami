@@ -1,7 +1,9 @@
 <div class="container mt-5">
 
     <h1>BENVENUTO IN SPOTTAMI</h1>
+    <h2>Prenota quì la tua stanza.</h2>
 
-    <a mat-raised-button routerLink="/login">LOGIN</a>
+    <a mat-raised-button routerLink="/login" *ngIf="!(authService.isLogged$ | async)">LOGIN</a>
+    <a mat-raised-button routerLink="/stanze" *ngIf="(authService.isLogged$ | async)">PRENOTA LA STANZA</a>
 
 </div>
