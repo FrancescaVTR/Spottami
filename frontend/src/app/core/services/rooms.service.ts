@@ -40,4 +40,8 @@ export class RoomsService {
   getBookingsByID(id: number): Observable<ResponseData<RoomBooking[]>> {
     return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/${id}`);
   }
+
+  deleteBookingByID(id: number): Observable<unknown> {
+    return this.http.delete(`${this.bookingAPIUrl}/${id}`);
+  }
 }

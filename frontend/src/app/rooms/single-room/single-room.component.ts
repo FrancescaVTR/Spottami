@@ -109,7 +109,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         this.form.controls.endTime.setErrors({ valid: false });
       } else {
         for (let i = this.startTime.value.id; i < this.endTime.value.id; i++) {
-          let valid = this.START_TIMES[i];
+          let valid = this.START_TIMES[i].valid;
           if (!valid) {
             this.form.controls.endTime.setErrors({ valid: false});
             break;

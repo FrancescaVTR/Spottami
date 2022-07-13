@@ -18,9 +18,10 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
-  BOOKINGS: RoomBooking[] = []
+  userID!: number;
+  BOOKINGS: RoomBooking[] = [];
 
-  displayedColumns: string[] = ['room_id', 'booking_date', 'start_time', 'end_time'];
+  displayedColumns: string[] = ['room_id', 'booking_date', 'start_time', 'end_time', 'actions'];
   dataSource = new MatTableDataSource<RoomBooking>();
   clickedRow = new Set<RoomBooking>();
 
@@ -39,6 +40,7 @@ export class ProfileComponent implements OnInit {
       takeUntil(this.destroy$)
     ).subscribe( (id) => {
       if (id) {
+        this.userID = id;
         this.getBookings(id)
       } else {
         this.router.navigateByUrl('/login');
@@ -61,6 +63,14 @@ export class ProfileComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.BOOKINGS);
       }
     )
+  }
+
+  deleteBooking(id: number): void {
+    this.roomsService.deleteBookingByID(id)
+    .pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe(() => this.getBookings(this.userID));
   }
 
 }
