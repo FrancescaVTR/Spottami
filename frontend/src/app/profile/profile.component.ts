@@ -1,0 +1,61 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { RoomsService } from '../core/services/rooms.service';
+
+import { RoomBooking } from '../core/models/roomBooking';
+import { AuthService } from '../core/auth/auth.service';
+
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
+})
+export class ProfileComponent implements OnInit {
+
+  BOOKINGS: RoomBooking[] = []
+
+  displayedColumns: string[] = ['room_id', 'booking_date', 'start_time', 'end_time'];
+  dataSource = new MatTableDataSource<RoomBooking>();
+  clickedRow = new Set<RoomBooking>();
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(
+    private authService: AuthService,
+    private roomsService: RoomsService
+    ) { }
+
+  ngOnInit(): void {
+    this.authService.id$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe( (id) => {
+      if (id)
+        this.getBookings(id)
+    });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  getBookings(id: number): void {
+    this.roomsService.getBookingsByID(id)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        this.BOOKINGS = response.data;
+        console.log(this.BOOKINGS);
+        this.dataSource = new MatTableDataSource(this.BOOKINGS);
+      }
+    )
+  }
+
+}

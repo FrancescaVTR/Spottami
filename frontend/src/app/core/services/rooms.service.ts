@@ -36,4 +36,8 @@ export class RoomsService {
     const url = `${this.bookingAPIUrl + 'newbooking'}`;
     return this.http.post<RoomBooking>(url, booking)
   }
+
+  getBookingsByID(id: number): Observable<ResponseData<RoomBooking[]>> {
+    return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/?id=${id}`);
+  }
 }

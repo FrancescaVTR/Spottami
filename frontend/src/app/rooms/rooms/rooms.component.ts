@@ -47,9 +47,4 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       }
     )
   }
-
-  clickRoom(): void {
-    console.log('click');
-    console.log(this.clickedRow);
-  }
 }

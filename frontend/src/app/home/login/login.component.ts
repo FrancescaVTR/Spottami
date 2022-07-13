@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { HttpClient } from '@angular/common/http';
-
 import { Subject, takeUntil } from 'rxjs';
 
 import { UsersService } from 'src/app/core/services/users.service';
@@ -30,8 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.name = new FormControl('Fatima', Validators.required);
-    this.password = new FormControl('Fatima', Validators.required);
+    this.name = new FormControl('', Validators.required);
+    this.password = new FormControl('', Validators.required);
 
     this.form = this.fb.group({
       name: this.name,

@@ -19,7 +19,8 @@ export class HomeComponent {
 
   links: Link[] = [
     { routerLink: '', name: 'Homepage', icon: 'home' },
-    { routerLink: '/stanze', name: 'Stanze', icon: 'meeting_room' }
+    { routerLink: '/stanze', name: 'Stanze', icon: 'meeting_room' },
+    { routerLink: '/profilo', name: 'Profilo', icon: 'person' }
   ]
 
   constructor(public authService: AuthService) { }

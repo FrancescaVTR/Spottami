@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Location } from '@angular/common';
 import { RoomsService } from 'src/app/core/services/rooms.service';
@@ -48,7 +48,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private fb: FormBuilder,
     private location: Location,
-    private roomsService: RoomsService
+    private roomsService: RoomsService,
+    private router: Router
   ) {
     const targetDate = new Date();
     this.minDate = new Date(targetDate.setDate(targetDate.getDate() + 1));
@@ -115,7 +116,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
   getRoom(): void {
     
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.roomsService.roomsList$
+    if (this.roomsService.roomsList$ != undefined) {
+      this.roomsService.roomsList$
       .pipe(
         takeUntil(this.destroy$)
       )
@@ -126,8 +128,10 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         } else {
           console.error("Stanza non trovata");
         }
-      }
-    );
+      });
+    } else {
+      this.router.navigateByUrl('/stanze');
+    }
   }
 
   onSubmit(): void {
@@ -145,7 +149,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$)
     )
-    .subscribe( res => {
+    .subscribe( () => {
       alert("Prenotazione andata a buon fine");
     });
   }
