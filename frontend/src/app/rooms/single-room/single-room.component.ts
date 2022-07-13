@@ -31,8 +31,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     return day !== 0 && day !== 6;
   };
 
-  START_TIMES!: Time[];
-  END_TIMES!: Time[];
+  START_TIMES: Time[] = START_TIMES;
+  END_TIMES: Time[] = END_TIMES;
 
   form!: FormGroup;
   date!: FormControl;
@@ -75,10 +75,6 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(response => {
-
-        this.START_TIMES = START_TIMES;
-        this.END_TIMES = END_TIMES;
-
         if (response.data) {
           this.bookings = response.data;
           for (let i in this.bookings) {
@@ -99,7 +95,7 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
             }
           }
         } else {
-          console.log("Nessuna prenotazione effettuata");
+          console.log("Nessuna prenotazione precedente");
         }
       })
     });
@@ -141,6 +137,16 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
     const BOOKING = new RoomBooking(this.user_id, this.room_id, this.date.value, this.startTime.value, this.endTime.value)
 
     console.log(BOOKING);
+
+    this.roomsService.addBooking(BOOKING)
+    .pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe( res => {
+      console.log(res);
+      alert("Prenotazione andata a buon fine");
+      this.form.reset();
+    });
   }
 
   goBack(): void {

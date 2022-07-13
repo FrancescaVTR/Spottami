@@ -31,4 +31,9 @@ export class RoomsService {
     const url = `${this.bookingAPIUrl + 'booking'}`;
     return this.http.post<ResponseData<RoomBooking[]>>(url, search);
   }
+
+  addBooking(booking: RoomBooking): Observable<RoomBooking> {
+    const url = `${this.bookingAPIUrl + 'newbooking'}`;
+    return this.http.post<RoomBooking>(url, booking)
+  }
 }
