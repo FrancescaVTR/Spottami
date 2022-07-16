@@ -15,8 +15,12 @@ import { BookSearch } from '../models/bookSearch';
 export class RoomsService {
 
   private apiUrl = 'http://localhost:8080/api/rooms/';
-  private bookingAPIUrl = 'http://localhost:8080/api/booking/'
+  private bookingAPIUrl = 'http://localhost:8080/api/booking/';
+
+  private JSUrl = 'http://localhost:3000/';
+
   public roomsList$!: Observable<ResponseData<Room[]>>;
+  public roomsListJS$!: Observable<Room[]>;
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +29,13 @@ export class RoomsService {
       this.roomsList$ = this.http.get<ResponseData<Room[]>>(this.apiUrl + 'rooms');
     }
     return this.roomsList$;
+  }
+
+  getAllRoomsJS(): Observable<Room[]> {
+    if (this.roomsListJS$ === undefined) {
+      this.roomsListJS$ = this.http.get<Room[]>(this.JSUrl + 'rooms');
+    }
+    return this.roomsListJS$;
   }
 
   searchBookings(search: BookSearch): Observable<ResponseData<RoomBooking[]>> {
@@ -39,6 +50,10 @@ export class RoomsService {
 
   getBookingsByID(id: number): Observable<ResponseData<RoomBooking[]>> {
     return this.http.get<ResponseData<RoomBooking[]>>(`${this.bookingAPIUrl + 'booking'}/${id}`);
+  }
+
+  getBookingsByIDJS(id: number): Observable<RoomBooking[]> {
+    return this.http.get<RoomBooking[]>(`${this.JSUrl}bookings?user_id=${id}`);
   }
 
   deleteBookingByID(id: number): Observable<Object> {

@@ -56,7 +56,8 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getRoom();
+    // this.getRoom();
+    this.getRoomJS();
 
     this.date = new FormControl('', Validators.required);
     this.startTime = new FormControl('', Validators.required);
@@ -68,41 +69,41 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       endTime: this.endTime,
     });
 
-    this.date.valueChanges.subscribe( (value) => {
-      const bookSearch = new BookSearch(this.room.id, value);
-      const bookings$ = this.roomsService.searchBookings(bookSearch);
-      bookings$.pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(response => {
+    // this.date.valueChanges.subscribe( (value) => {
+    //   const bookSearch = new BookSearch(this.room.id, value);
+    //   const bookings$ = this.roomsService.searchBookings(bookSearch);
+    //   bookings$.pipe(
+    //     takeUntil(this.destroy$)
+    //   )
+    //   .subscribe(response => {
 
-        this.START_TIMES = START_TIMES;
-        this.END_TIMES = END_TIMES;
+    //     this.START_TIMES = START_TIMES;
+    //     this.END_TIMES = END_TIMES;
 
-        if (response.data) {
-          this.bookings = response.data;
-          for (let i in this.bookings) {
-            let start = this.START_TIMES.find( time => time.data === this.bookings[i].start_time);
-            let end = this.END_TIMES.find( time => time.data === this.bookings[i].end_time);
+    //     if (response.data) {
+    //       this.bookings = response.data;
+    //       for (let i in this.bookings) {
+    //         let start = this.START_TIMES.find( time => time.data === this.bookings[i].start_time);
+    //         let end = this.END_TIMES.find( time => time.data === this.bookings[i].end_time);
 
-            if (start && end) {
-              for (let j in this.START_TIMES) {
-                if (this.START_TIMES[j].id >= start.id && this.START_TIMES[j].id < end.id) {
-                  this.START_TIMES[j].valid = false;
-                }
-              }
-              for (let y in this.END_TIMES) {
-                if (this.END_TIMES[y].id > start.id && this.END_TIMES[y].id <= end.id) {
-                  this.END_TIMES[y].valid = false;
-                }
-              }
-            }
-          }
-        } else {
-          console.log("Nessuna prenotazione precedente");
-        }
-      })
-    });
+    //         if (start && end) {
+    //           for (let j in this.START_TIMES) {
+    //             if (this.START_TIMES[j].id >= start.id && this.START_TIMES[j].id < end.id) {
+    //               this.START_TIMES[j].valid = false;
+    //             }
+    //           }
+    //           for (let y in this.END_TIMES) {
+    //             if (this.END_TIMES[y].id > start.id && this.END_TIMES[y].id <= end.id) {
+    //               this.END_TIMES[y].valid = false;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     } else {
+    //       console.log("Nessuna prenotazione precedente");
+    //     }
+    //   })
+    // });
 
     this.form.valueChanges.subscribe( () => {
       if (this.endTime.value.id <= this.startTime.value.id) {
@@ -131,6 +132,27 @@ export class SingleRoomComponent implements OnInit, OnDestroy {
       )
       .subscribe( (response) => {
         let matchRoom = response.data.find(room => room.id === id);
+        if (matchRoom != undefined) {
+          this.room = matchRoom
+        } else {
+          console.error("Stanza non trovata");
+        }
+      });
+    } else {
+      this.router.navigateByUrl('/stanze');
+    }
+  }
+
+  getRoomJS(): void {
+    
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    if (this.roomsService.roomsListJS$ != undefined) {
+      this.roomsService.roomsListJS$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe( (response) => {
+        let matchRoom = response.find(room => room.id === id);
         if (matchRoom != undefined) {
           this.room = matchRoom
         } else {

@@ -54,6 +54,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     )
   }
 
+  onSubmitJS(): void {
+    const userLogging = this.form.value;
+    const user$ = this.userService.loginJS(userLogging);
+    user$.pipe(
+      takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        if (response.length != 0) {
+          localStorage.setItem('auth', JSON.stringify(response[0]));
+          this.router.navigateByUrl('/stanze');
+        } else {
+          alert("Error. Invalid username or password");
+        }
+      }
+    )
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
   }

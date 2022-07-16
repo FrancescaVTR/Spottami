@@ -41,7 +41,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     ).subscribe( (id) => {
       if (id) {
         this.userID = id;
-        this.getBookings(id)
+        // this.getBookings(id);
+        this.getBookingsJS(id);
       } else {
         this.router.navigateByUrl('/login');
       }
@@ -59,6 +60,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
         this.BOOKINGS = response.data;
+        console.log(this.BOOKINGS);
+        this.dataSource = new MatTableDataSource(this.BOOKINGS);
+      }
+    )
+  }
+
+  getBookingsJS(id: number): void {
+    this.roomsService.getBookingsByIDJS(id)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        this.BOOKINGS = response;
         console.log(this.BOOKINGS);
         this.dataSource = new MatTableDataSource(this.BOOKINGS);
       }

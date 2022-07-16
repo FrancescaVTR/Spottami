@@ -1,0 +1,86 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Fatima",
+      "password": "Fatima"
+    },
+    {
+      "id": 2,
+      "name": "Francesca",
+      "password": "qwerty"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Gialla",
+      "work_stations": 7,
+      "room_type_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Rossa",
+      "work_stations": 5,
+      "room_type_id": 1
+    },
+    {
+      "id": 3,
+      "name": "Blu",
+      "work_stations": 6,
+      "room_type_id": 1
+    },
+    {
+      "id": 4,
+      "name": "Verde",
+      "work_stations": 8,
+      "room_type_id": 1
+    },
+    {
+      "id": 5,
+      "name": "Rosa",
+      "work_stations": 10,
+      "room_type_id": 1
+    },
+    {
+      "id": 6,
+      "name": "Azzurra",
+      "work_stations": 4,
+      "room_type_id": 1
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "room_id": 2,
+      "booking_date": "2022-07-19T22:00:00.000Z",
+      "start_time": "15:00",
+      "end_time": "18:00"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "room_id": 3,
+      "booking_date": "2022-07-21T22:00:00.000Z",
+      "start_time": "09:00",
+      "end_time": "18:00"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "room_id": 7,
+      "booking_date": "2022-07-25T22:00:00.000Z",
+      "start_time": "08:00",
+      "end_time": "12:00"
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "room_id": 4,
+      "booking_date": "2022-08-15T22:00:00.000Z",
+      "start_time": "14:00",
+      "end_time": "16:00"
+    }
+  ]
+}

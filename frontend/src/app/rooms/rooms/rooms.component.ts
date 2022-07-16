@@ -29,7 +29,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   constructor(private roomsService: RoomsService) { }
 
   ngOnInit(): void {
-    this.getRooms();    
+    // this.getRooms();
+    this.getRoomsJS();    
   }
 
   ngAfterViewInit() {
@@ -43,6 +44,18 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       )
       .subscribe(response => {
         this.ROOMS = response.data;
+        this.dataSource = new MatTableDataSource(this.ROOMS);
+      }
+    )
+  }
+
+  getRoomsJS(): void {
+    this.roomsService.getAllRoomsJS()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+        this.ROOMS = response;
         this.dataSource = new MatTableDataSource(this.ROOMS);
       }
     )
